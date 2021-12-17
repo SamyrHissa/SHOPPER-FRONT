@@ -26,7 +26,7 @@ const GlobalStatesContext = (props) => {
                 setItensOrder(res.data)
             })
             .catch((err) => {
-                console.log('erro', err.response)
+                console.log('erro', err)
             })
     }
 
@@ -39,6 +39,20 @@ const GlobalStatesContext = (props) => {
             })
             .catch((err) => {
                 console.log('erro', err.response)
+            })
+    }
+
+    const createOrder = (body, clear) => {
+        console.log('create', `${BASE_URL}/orders`)
+        axios
+            .post(`${BASE_URL}/orders`, body)
+            .then((res) => {
+                console.log('create order', res.data)
+                alert(res.data)
+                clear()
+            })
+            .catch((err) => {
+                console.log('erro', err)
             })
     }
     // const getGenres = ()=>{
@@ -80,7 +94,7 @@ const GlobalStatesContext = (props) => {
                       setOrders, 
                       setItensOrder
                     }
-    const requests = { getOrders, getItensOrder, getProducts }
+    const requests = { getOrders, getItensOrder, getProducts, createOrder }
 
     return (
         <GlobalContext.Provider value={{states, setters, requests}}>
