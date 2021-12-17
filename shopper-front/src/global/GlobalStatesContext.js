@@ -19,17 +19,28 @@ const GlobalStatesContext = (props) => {
                 console.log(err.response)
             })
     }
-    // const getMovieDatails = (move_id) => {
-    //     axios
-    //         .get(`${BASE_URL}/movie/${move_id}?api_key=${API_KEY}`)
-    //         .then((res) => {
-    //             setMovieDetails(res.data)
-    //         })
-    //         .catch((err) => {
-    //             console.log('erro', err.response)
-    //         })
-    // }
+    const getItensOrder = (order_id) => {
+        axios
+            .get(`${BASE_URL}/orders/itens/${order_id}`)
+            .then((res) => {
+                setItensOrder(res.data)
+            })
+            .catch((err) => {
+                console.log('erro', err.response)
+            })
+    }
 
+    const getProducts = () => {
+        axios
+            .get(`${BASE_URL}/products`)
+            .then((res) => {
+                // console.log('produtos', res.data)
+                setProducts(res.data)
+            })
+            .catch((err) => {
+                console.log('erro', err.response)
+            })
+    }
     // const getGenres = ()=>{
         
     //     axios
@@ -69,7 +80,7 @@ const GlobalStatesContext = (props) => {
                       setOrders, 
                       setItensOrder
                     }
-    const requests = { getOrders }
+    const requests = { getOrders, getItensOrder, getProducts }
 
     return (
         <GlobalContext.Provider value={{states, setters, requests}}>

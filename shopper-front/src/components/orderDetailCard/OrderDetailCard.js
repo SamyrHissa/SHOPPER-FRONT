@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import GlobalContext from "../../global/GlobalContext";
-export const DetailOrderPage = () => {
+export const OrderDetailCard = (props) => {
     const {states, requests} = useContext(GlobalContext)
-    const params = useParams();
     const history = useHistory()
     useEffect(()=>{
-        requests.getItensOrder(params.orderId)
+        console.log('aqui')
+        requests.getItensOrder(props.orderId)
         requests.getProducts()
-    }, []
+    }, [props.orderId]
     )
     
     const getProduct = (id) => {

@@ -1,135 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { OrderDetailCard } from "../../components/orderDetailCard/OrderDetailCard";
 import GlobalContext from "../../global/GlobalContext";
 import { goToDetailOrderPage } from "../../routers/coordinator";
 export const OrdersPage = () => {
     const history = useHistory()
-
-    // const pedidos = [
-    //     {
-    //         "id": "1",
-    //         "name_client": "Samyr",
-    //         "delivery_date": "10/12/2021",
-    //         "valor": 5000
-    //     },
-    //     {
-    //         "id": "2",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "3",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "4",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "5",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "6",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "7",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "8",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "9",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "10",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "11",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "12",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "13",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "14",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "15",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "16",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "17",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "18",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     },
-    //     {
-    //         "id": "19",
-    //         "name_client": "Carla",
-    //         "delivery_date": "15/12/2021",
-    //         "valor": 2500
-    //     }
-    // ]
     const {states, requests} = useContext(GlobalContext)
     useEffect(()=>{
         requests.getOrders()
     },[])
-    
+    const [pedidoSelecionado, setPedidoSelecionado] = useState();
+    const changePedidoSelecionado = (pedido) => {
+        setPedidoSelecionado(pedido)
+        console.log('passei aqui', pedido)
+    }
     const ListaPedidos = states.orders.map((pedido)=>{
+        // console.log('pedido.Order_id', pedido.Order_id)
         return (
             
-            <tr key={pedido.Order_id} onClick={() => goToDetailOrderPage(history, pedido.Order_id)}>
+            <tr key={pedido.Order_id} value={pedido.Order_id}
+                // onClick={() => goToDetailOrderPage(history, pedido.Order_id)}
+                onClick={()=>changePedidoSelecionado(pedido)}
+                >
                 <th scope="row">{pedido.Cliente}</th>
                 <td>{pedido.Data_Entrega}</td>
                 <td>{pedido.Valor}</td>
@@ -152,9 +44,13 @@ export const OrdersPage = () => {
                 </thead>
                 <tbody>
                    {ListaPedidos}
-                    
                 </tbody>
-                </table>
+            </table>
+            <div class="alert alert-info h5" role="alert">
+                Itens do pedido de 
+                {/* {pedidoSelecionado.Cliente} */}
+            </div>
+            <OrderDetailCard orderId={pedidoSelecionado.Order_id} />
       </div>
         
     )
