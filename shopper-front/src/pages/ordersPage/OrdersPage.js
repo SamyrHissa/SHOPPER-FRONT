@@ -2,26 +2,21 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { OrderDetailCard } from "../../components/orderDetailCard/OrderDetailCard";
 import GlobalContext from "../../global/GlobalContext";
-import { goToDetailOrderPage } from "../../routers/coordinator";
 export const OrdersPage = () => {
     const history = useHistory()
     const {states, requests} = useContext(GlobalContext)
     useEffect(()=>{
         requests.getOrders()
+        setPedidoSelecionado(states.orders[0])
     },[])
     const [pedidoSelecionado, setPedidoSelecionado] = useState();
     const changePedidoSelecionado = (pedido) => {
         setPedidoSelecionado(pedido)
-        console.log('passei aqui', pedido)
     }
-    const ListaPedidos = states.orders.map((pedido)=>{
-        // console.log('pedido.Order_id', pedido.Order_id)
+    const ListaPedidos =  states.orders.map((pedido)=>{
         return (
             
-            <tr key={pedido.Order_id} value={pedido.Order_id}
-                // onClick={() => goToDetailOrderPage(history, pedido.Order_id)}
-                onClick={()=>changePedidoSelecionado(pedido)}
-                >
+            <tr key={pedido.Order_id} value={pedido.Order_id} onClick={()=>changePedidoSelecionado(pedido)}>
                 <th scope="row">{pedido.Cliente}</th>
                 <td>{pedido.Data_Entrega}</td>
                 <td>{pedido.Valor}</td>
@@ -46,11 +41,13 @@ export const OrdersPage = () => {
                    {ListaPedidos}
                 </tbody>
             </table>
-            <div class="alert alert-info h5" role="alert">
-                Itens do pedido de 
-                {/* {pedidoSelecionado.Cliente} */}
-            </div>
-            <OrderDetailCard orderId={pedidoSelecionado.Order_id} />
+            {pedidoSelecionado ? <div>
+                                    <div className="alert alert-info h5" role="alert">
+                                        Itens do pedido de {pedidoSelecionado ? pedidoSelecionado.Cliente : ""}
+                                    </div>
+                                    <OrderDetailCard orderId={pedidoSelecionado.Order_id} />
+                                </div> : <></>}
+            
       </div>
         
     )

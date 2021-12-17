@@ -5,7 +5,6 @@ export const OrderDetailCard = (props) => {
     const {states, requests} = useContext(GlobalContext)
     const history = useHistory()
     useEffect(()=>{
-        console.log('aqui')
         requests.getItensOrder(props.orderId)
         requests.getProducts()
     }, [props.orderId]
@@ -19,7 +18,6 @@ export const OrderDetailCard = (props) => {
         return result
     } 
     const ListaItensPedido = states.itensOrder.map((item)=>{
-        console.log('produto',item.product_id, getProduct(item.product_id)[0].name)
         return (
             
             <tr key={item.id} 
