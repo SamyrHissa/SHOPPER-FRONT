@@ -10,6 +10,7 @@ const GlobalStatesContext = (props) => {
     const [orders, setOrders] = useState([])
     const [itensOrder, setItensOrder] = useState([])
     const [orderSelected, setOrderSelected] = useState({})
+    const [acaoDetailPage, setAcaoDetailPage] = useState("")
 
     const changeOrderSelected = (history, order) => {
         setOrderSelected(order)
@@ -60,13 +61,36 @@ const GlobalStatesContext = (props) => {
             })
     }
 
+    const addItemOrder = (history, body) => {
+        axios
+            .post(`${BASE_URL}/orders/itens`, body)
+            .then((res) => {
+                console.log(res.data)
+                const newItensOrder = [...itensOrder, body]
+                // for(let item of newItensOrder){
+                //     if(item.id === body.item_id){
+                //         item.qty_requested = body.qty_alter
+                //     }
+                // }
+                setItensOrder(newItensOrder)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     const alterItemOrder = (history, body) => {
         axios
             .put(`${BASE_URL}/orders/itens`, body)
             .then((res) => {
                 console.log(res.data)
-                // clear({})
-                goToOrdersPage(history)
+                const newItensOrder = [...itensOrder]
+                for(let item of newItensOrder){
+                    if(item.id === body.item_id){
+                        item.qty_requested = body.qty_alter
+                    }
+                }
+                setItensOrder(newItensOrder)
             })
             .catch((err) => {
                 console.log(err)
@@ -78,20 +102,31 @@ const GlobalStatesContext = (props) => {
             .delete(`${BASE_URL}/orders/itens/${itemId}`)
             .then((res) => {
                 console.log(res.data)
-                // clear("")
-                goToOrdersPage(history)
+                const newItensOrder = itensOrder.filter((item)=>{
+                    if(!(item.id === itemId)){
+                        return item
+                    }
+                })
+                setItensOrder(newItensOrder)
             })
             .catch((err) => {
                 console.log(err)
             })
     }
 
-    const states = { products, orders, itensOrder, orderSelected }
+    const states = { products, orders, itensOrder, orderSelected, acaoDetailPage }
     const setters = { setProducts, 
                       setOrders, 
-                      setItensOrder
+                      setItensOrder,
+                      setAcaoDetailPage
                     }
-    const requests = { getOrders, getItensOrder, getProducts, createOrder, alterItemOrder, deleteItemOrder }
+    const requests = { getOrders, 
+                       getItensOrder, 
+                       getProducts, 
+                       createOrder, 
+                       alterItemOrder, 
+                       deleteItemOrder,
+                       addItemOrder }
 
     const functions = { changeOrderSelected }
     return (

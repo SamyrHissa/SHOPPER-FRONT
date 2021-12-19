@@ -8,10 +8,10 @@ export const OrdersPage = () => {
     const {states, requests, functions} = useContext(GlobalContext)
     useEffect(()=>{
         requests.getOrders()
-        requests.getProducts()
-    })
+    }, [])
 
     const ListaPedidos =  states.orders.map((pedido)=>{
+        
         return (
             <tr key={pedido.Order_id} value={pedido.Order_id} onClick={()=>functions.changeOrderSelected(history, pedido)}>
                 <th scope="row">{pedido.Cliente}</th>
