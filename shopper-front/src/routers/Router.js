@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Header } from "../components/header/Header";
 import { CreateOrderPage } from "../pages/createOrderPage/CreateOrderPage";
-import { DetailOrderPage } from "../pages/detailOrderPage/DetailOrderPage";
+import { OrderDetailPage } from "../pages/orderDetailPage/OrderDetailPage";
 import { HomePage } from "../pages/homePage/HomePage";
 import { OrdersPage } from "../pages/ordersPage/OrdersPage";
 
@@ -22,7 +22,7 @@ const Router = () => {
                     <OrdersPage />
                 </Route>
                 <Route exact path="/orders/detail/:orderId">
-                    <DetailOrderPage />
+                    <OrderDetailPage />
                 </Route>
                 <Route exact path="/orders/create">
                     <CreateOrderPage />

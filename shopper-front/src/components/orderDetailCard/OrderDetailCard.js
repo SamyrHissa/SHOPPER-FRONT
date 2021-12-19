@@ -1,33 +1,28 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import GlobalContext from "../../global/GlobalContext";
-export const OrderDetailCard = (props) => {
+import { formatCurrency } from "../../utils/function.ts";
+export const OrderDetailCard = () => {
     const {states, requests} = useContext(GlobalContext)
     const history = useHistory()
-    useEffect(()=>{
-        requests.getItensOrder(props.orderId)
-        requests.getProducts()
-    }, [props.orderId]
-    )
     
     const getProduct = (id) => {
-        
         const result = states.products.filter((product)=>{
           return id === product.id          
         })
         return result
     } 
-    const ListaItensPedido = states.itensOrder.map((item)=>{
+    
+    const ListaItensPedido =  states.itensOrder.map((item)=>{
+        
         return (
-            
-            <tr key={item.id} 
-            // onClick={() => goToDetailOrderPage(history, pedido.Order_id)}
-            >
-                
+            <tr key={item.id} >
                 <td>{getProduct(item.product_id)[0].name}</td>
-                <td>{getProduct(item.product_id)[0].price}</td>
-                <td>{item.qty_requested}</td>
-                <td>{item.qty_requested * getProduct(item.product_id)[0].price}</td>
+                <td class="text-right">{formatCurrency(getProduct(item.product_id)[0].price, 2)}</td>
+                <td class="text-right">{formatCurrency(item.qty_requested, 3)}</td>
+                <td class="text-right">{formatCurrency(item.qty_requested * getProduct(item.product_id)[0].price, 2)}</td>
+
+                
 
                 {/* <td>{pedido.Data_Entrega}</td> */}
                 {/* <td>{pedido.Valor}</td> */}
@@ -43,9 +38,9 @@ export const OrderDetailCard = (props) => {
                 <thead>
                     <tr>
                     <th scope="col">Produto</th>
-                    <th scope="col">Preço Unitário</th>
-                    <th scope="col">Quantidade</th>
-                    <th scope="col">Total</th>
+                    <th scope="col" class="text-center">Preço Unitário</th>
+                    <th scope="col" class="text-center">Quantidade</th>
+                    <th scope="col" class="text-center">Total</th>
                     </tr>
                 </thead>
                 <tbody>

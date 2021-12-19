@@ -8,6 +8,6 @@ export const goToOrdersPage = (history) => {
 export const goToCreateOrderPage = (history) => {
     history.push("/orders/create")
 }
-export const goToDetailOrderPage = (history,orderId) => {
+export const goToOrderDetailPage = (history,orderId) => {
     history.push(`/orders/detail/${orderId}`)
 }
