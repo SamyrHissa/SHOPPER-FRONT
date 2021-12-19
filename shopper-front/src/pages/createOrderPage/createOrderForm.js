@@ -5,6 +5,9 @@ import GlobalContext from "../../global/GlobalContext";
 import useForm from "../../hooks/useForm";
 import { formatDate } from "../../utils/function.ts";
 export const CreateOrderForm = () => {
+    useEffect(()=>{
+        
+    })
     const {states, requests} = useContext(GlobalContext)
     
     const [nome, setNome] = useState("")
