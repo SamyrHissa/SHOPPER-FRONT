@@ -1,17 +1,12 @@
 import React, { useContext, useState } from "react";
-import { useEffect } from "react/cjs/react.development";
-import ItensProdutos from "../../components/itensProducts/ItensProducts";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import GlobalContext from "../../global/GlobalContext";
-import useForm from "../../hooks/useForm";
-import { formatDate } from "../../utils/function.ts";
 export const CreateOrderForm = () => {
-    useEffect(()=>{
-        
-    })
+    const history = useHistory()
     const {states, requests} = useContext(GlobalContext)
     
     const [nome, setNome] = useState("")
-    const [data, setData] = useState(new Date())
+    const [data, setData] = useState()
     const changeNome = (e) => {
         setNome(e.target.value)
     }
@@ -24,13 +19,14 @@ export const CreateOrderForm = () => {
     }
     const onSubmitForm = (event) => {
         event.preventDefault()
-        console.log('aqui')
-        requests.createOrder({ name_client: nome,
-                               delivery_date: formatDate(data) }, clear)
-      } 
+        const newOrder = { "name_client": nome,
+                           "delivery_date": data
+                        }
+        requests.createOrder(history, newOrder, clear)
+    } 
     return (
         <form onSubmit={onSubmitForm}>
-            <div class="container-fluid">
+            <div className="container-fluid">
                 <div className="form-group">
                     <label for="client_name">Nome do Cliente</label>
                     <input type="text" className="form-control" id="client_name" aria-describedby="clientName_help" placeholder="Nome" 
@@ -46,8 +42,12 @@ export const CreateOrderForm = () => {
                         onChange={changeData}
                     />
                 </div>
-                <ItensProdutos />
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                { (nome !== '') && data ?
+                <div className="alert alert-info h5 " role="alert" >
+                        <div className="text-center">
+                        <button type="submit" className="btn btn-primary">Enviar</button>
+                        </div>
+                </div> : <></>}
             </div>
             
         </form>

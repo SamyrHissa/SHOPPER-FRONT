@@ -1,6 +1,6 @@
 
 
-export const formatCurrency = (number: number, digits: number) => {
+export const formatCurrency = (number, digits) => {
     const result = number.toLocaleString('pt-BR', {
         minimumFractionDigits: digits,
         maximumFractionDigits: digits
@@ -8,7 +8,7 @@ export const formatCurrency = (number: number, digits: number) => {
     return result
 }
 
-export const formatDate = (data: string) =>{
+export const formatDate = (data) =>{
   const date = new Date(data)
   const dia  = date.getDate().toString()
   const diaF = (dia.length === 1) ? '0' + dia : dia
