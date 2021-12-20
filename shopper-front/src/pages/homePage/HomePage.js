@@ -6,7 +6,6 @@ export const HomePage =() => {
     const history = useHistory()
     return (
         <div>
-            Home Pages
             {goToOrdersPage(history)}
         </div>
     )
