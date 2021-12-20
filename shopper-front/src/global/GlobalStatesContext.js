@@ -10,6 +10,7 @@ const GlobalStatesContext = (props) => {
     const [orders, setOrders] = useState([])
     const [itensOrder, setItensOrder] = useState([])
     const [orderSelected, setOrderSelected] = useState({})
+    const [productSelected, setProductSelected] = useState()
     const [acaoDetailPage, setAcaoDetailPage] = useState("")
 
     const changeOrderSelected = (history, order) => {
@@ -41,7 +42,6 @@ const GlobalStatesContext = (props) => {
         axios
             .get(`${BASE_URL}/products`)
             .then((res) => {
-                // console.log('produtos', res.data)
                 setProducts(res.data)
             })
             .catch((err) => {
@@ -49,12 +49,21 @@ const GlobalStatesContext = (props) => {
             })
     }
 
-    const createOrder = (body, clear) => {
+    const createOrder = (history, body, clear) => {
+        
         axios
             .post(`${BASE_URL}/orders`, body)
             .then((res) => {
                 console.log(res.data)
                 clear()
+                const newOrder = {
+                    "Order_id": res.data.id,
+                    "Cliente": body.name_client,
+                    "Data_Entrega": body.delivery_date,
+                    "Valor": 0
+                }
+                setOrderSelected(newOrder)
+                goToOrderDetailPage(history, res.data.id)
             })
             .catch((err) => {
                 console.log(err)
@@ -67,11 +76,6 @@ const GlobalStatesContext = (props) => {
             .then((res) => {
                 console.log(res.data)
                 const newItensOrder = [...itensOrder, body]
-                // for(let item of newItensOrder){
-                //     if(item.id === body.item_id){
-                //         item.qty_requested = body.qty_alter
-                //     }
-                // }
                 setItensOrder(newItensOrder)
             })
             .catch((err) => {
@@ -114,10 +118,11 @@ const GlobalStatesContext = (props) => {
             })
     }
 
-    const states = { products, orders, itensOrder, orderSelected, acaoDetailPage }
+    const states = { products, orders, itensOrder, orderSelected, productSelected, acaoDetailPage }
     const setters = { setProducts, 
                       setOrders, 
                       setItensOrder,
+                      setProductSelected,
                       setAcaoDetailPage
                     }
     const requests = { getOrders, 

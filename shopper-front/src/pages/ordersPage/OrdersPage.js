@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import GlobalContext from "../../global/GlobalContext";
-import { formatCurrency, formatDate } from "../../utils/function.ts";
+import { formatCurrency, formatDate } from "../../utils/function";
 
 export const OrdersPage = () => {
     const history = useHistory()
@@ -16,18 +16,17 @@ export const OrdersPage = () => {
             <tr key={pedido.Order_id} value={pedido.Order_id} onClick={()=>functions.changeOrderSelected(history, pedido)}>
                 <th scope="row">{pedido.Cliente}</th>
                 <td>{formatDate(pedido.Data_Entrega)}</td>
-                <td class="text-right">{formatCurrency(pedido.Valor, 2)}</td>
+                <td className="text-right">{formatCurrency(pedido.Valor, 2)}</td>
             </tr>
         )
     })
     return (
-        
-        <div class="container-fluid ">
+        <div className="container-fluid ">
             <div className=" border border-primary rounded p-2">
-                <div class="alert alert-light h3 " role="alert">
+                <div className="alert alert-light h3 " role="alert">
                     Pedidos
                 </div>
-                <table class="table table-bordered table-hover table-sm">
+                <table className="table table-bordered table-hover table-sm">
                     <thead>
                         <tr>
                         <th scope="col">Cliente</th>
