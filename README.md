@@ -1,4 +1,4 @@
-# shpper-front
+# shopper-front
 link do surge "tasteless-elbow.surge.sh"
 Foram feitas 3 telas principais:
 - Tela de pedidos onde são listados os pedidos cadastrados;
