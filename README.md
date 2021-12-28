@@ -1,5 +1,5 @@
 # shopper-front
-link do surge "tasteless-elbow.surge.sh"
+link do surge "equal-cakes.surge.sh"
 Foram feitas 3 telas principais:
 - Tela de pedidos onde são listados os pedidos cadastrados;
 - Tela dos itens do pedido selecionado onde temos 3 ações: Excluir, Alterar ou incluir um item novo;
