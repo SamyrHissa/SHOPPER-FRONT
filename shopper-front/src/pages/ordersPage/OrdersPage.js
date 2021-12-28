@@ -8,6 +8,7 @@ export const OrdersPage = () => {
     const {states, requests, functions} = useContext(GlobalContext)
     useEffect(()=>{
         requests.getOrders()
+        requests.getProducts()
     }, [])
 
     const ListaPedidos =  states.orders.map((pedido)=>{
