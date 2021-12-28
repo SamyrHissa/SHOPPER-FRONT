@@ -10,6 +10,7 @@ export const OrderDetailPage = () => {
     const history = useHistory()
     useEffect(()=>{
         requests.getItensOrder(params.orderId)
+        requests.getProducts()
     }, [])
 
     const getTotal = () => {
