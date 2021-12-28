@@ -9,9 +9,6 @@ export const OrderDetailPage = () => {
     const params = useParams();
     const history = useHistory()
     useEffect(()=>{
-        requests.getProducts()
-    }, [])   
-    useEffect(()=>{
         requests.getItensOrder(params.orderId)
     }, [])
 
@@ -73,11 +70,11 @@ export const OrderDetailPage = () => {
                 <table className="table table-bordered table-hover table-sm">
                     <thead>
                         <tr>
-                            <th>Excluir</th>
+                            <th className="text-center">Ação</th>
                             <th scope="col">Produto</th>
-                            <th scope="col">Preço Unitário</th>
-                            <th scope="col">Quantidade</th>
-                            <th scope="col">Total</th>
+                            <th className="text-center" scope="col">Preço Unitário</th>
+                            <th className="text-center" scope="col">Quantidade</th>
+                            <th className="text-center" scope="col">Total</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -25,7 +25,7 @@ const ItensProducts = () => {
               onClick={()=>selectionProduct(product)}
             >
                 <th className="text-left" scope="row">{product.name}</th>
-                <td className="text-right">{product.price}</td>
+                <td className="text-right">{formatCurrency(product.price, 2)}</td>
                 <td className="text-right">{formatCurrency(product.qty_stock, 2)}</td>
             </tr>
         )
