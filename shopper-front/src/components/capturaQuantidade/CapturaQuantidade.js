@@ -28,6 +28,8 @@ export const CapturaQuantidade = () => {
                     setQuantidade(quantidade - 1)
                 }
                 break
+            default:
+                break
         }
     }
     const getProduct = (id) => {
@@ -37,23 +39,34 @@ export const CapturaQuantidade = () => {
         return result
     }
     const onChangeQuantidade = (e) => {
-        setQuantidade(e.target.value)
+        setQuantidade(Number(e.target.value))
     }
-    const onClickIncluir = () => {
+    const onClickAcao = () => {
+        
         if(states.acaoDetailPage === "Incluir"){
-            const newItem = {
-                "order_id": states.orderSelected.Order_id,
-                "product_id": states.productSelected.id,
-                "qty_requested": quantidade
+            const jaExisteProduto = states.itensOrder.find((itemOrder)=>{
+                return itemOrder.product_id === states.productSelected.id
+            })
+            if(jaExisteProduto){
+                const oldItem = {
+                    "item_id": jaExisteProduto.id,
+                    "qty_alter": quantidade + jaExisteProduto.qty_requested
+                }
+                requests.alterItemOrder(history, oldItem)
+            } else {
+                const newItem = {
+                    "order_id": states.orderSelected.Order_id,
+                    "product_id": states.productSelected.id,
+                    "qty_requested": quantidade
+                }
+                requests.addItemOrder(history, newItem)
             }
-            requests.addItemOrder(history, newItem)
         } else {
-            const newItem = {
+            const oldItem = {
                 "item_id": states.productSelected.item_id,
                 "qty_alter": quantidade
             }
-            
-            requests.alterItemOrder(history, newItem)
+            requests.alterItemOrder(history, oldItem)
             setters.setAcaoDetailPage('')
         }
     }
@@ -82,14 +95,26 @@ export const CapturaQuantidade = () => {
                 <div className="input-group-append" id="button-addon4">
                     <button className="btn btn-outline-secondary" type="button" onClick={()=>steepQty('+')}>+</button>
                     <button className="btn btn-outline-secondary" type="button" onClick={()=>steepQty('-')}>-</button>
-                    <button className="btn btn-outline-primary ml-3 mr-2" type="button" onClick={()=>onClickIncluir()}>{states.acaoDetailPage}</button>
+                    <button className="btn btn-outline-primary ml-3 mr-2" type="button" onClick={()=>onClickAcao()}>{states.acaoDetailPage}</button>
                     <button className="btn btn-outline-danger" onClick={()=>setters.setAcaoDetailPage('')} type="button">Cancelar</button>
                 </div>
             </div>
-            {states.productSelected ? 
-                getProduct(states.productSelected.id)[0].qty_stock < quantidade ? <div className="alert alert-danger" role="alert">
-                        Quantidade maior que o estoque ( {getProduct(states.productSelected.id)[0].qty_stock} )
-                    </div> : <></> : <></>}
+            {states.productSelected &&
+                states.acaoDetailPage === "Incluir" &&
+                    getProduct(states.productSelected.id)[0].qty_stock < quantidade ? 
+                        <div className="alert alert-danger" role="alert">
+                            Quantidade maior que o estoque ( {getProduct(states.productSelected.id)[0].qty_stock} )
+                        </div> 
+                    : <></>
+            }
+            {
+                states.acaoDetailPage === "Alterar" &&
+                (getProduct(states.productSelected.id)[0].qty_stock + states.productSelected.qty_requested) < quantidade ? 
+                    <div className="alert alert-danger" role="alert">
+                        Quantidade maior que o estoque ( {getProduct(states.productSelected.id)[0].qty_stock + states.productSelected.qty_requested} )
+                    </div> 
+                : <></>
+            }
         </div>
     )
 }

@@ -2,7 +2,7 @@ import GlobalContext from "./GlobalContext"
 import axios from "axios"
 import { BASE_URL } from "../constants/urls"
 import { useState } from "react"
-import { goToOrderDetailPage, goToOrdersPage } from "../routers/coordinator"
+import { goToOrderDetailPage } from "../routers/coordinator"
 
 
 const GlobalStatesContext = (props) => {
@@ -45,7 +45,7 @@ const GlobalStatesContext = (props) => {
                 setProducts(res.data)
             })
             .catch((err) => {
-                console.log(err.response)
+                console.log(err)
             })
     }
 
@@ -75,8 +75,8 @@ const GlobalStatesContext = (props) => {
             .post(`${BASE_URL}/orders/itens`, body)
             .then((res) => {
                 console.log(res.data)
-                const newItensOrder = [...itensOrder, body]
-                setItensOrder(newItensOrder)
+                getItensOrder(body.order_id)
+                getProducts()
             })
             .catch((err) => {
                 console.log(err)
@@ -95,6 +95,7 @@ const GlobalStatesContext = (props) => {
                     }
                 }
                 setItensOrder(newItensOrder)
+                getProducts()
             })
             .catch((err) => {
                 console.log(err)
@@ -109,6 +110,8 @@ const GlobalStatesContext = (props) => {
                 const newItensOrder = itensOrder.filter((item)=>{
                     if(!(item.id === itemId)){
                         return item
+                    } else {
+                        return false
                     }
                 })
                 setItensOrder(newItensOrder)

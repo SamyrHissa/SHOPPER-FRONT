@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import GlobalContext from "../../global/GlobalContext";
+import { formatDate } from "../../utils/function";
 export const CreateOrderForm = () => {
     const history = useHistory()
-    const {states, requests} = useContext(GlobalContext)
+    const {requests} = useContext(GlobalContext)
     
     const [nome, setNome] = useState("")
     const [data, setData] = useState()
@@ -42,12 +43,20 @@ export const CreateOrderForm = () => {
                         onChange={changeData}
                     />
                 </div>
-                { (nome !== '') && data ?
-                <div className="alert alert-info h5 " role="alert" >
-                        <div className="text-center">
-                        <button type="submit" className="btn btn-primary">Enviar</button>
-                        </div>
-                </div> : <></>}
+                { ((nome !== '') && data) ?
+                    formatDate(data) >= new Date().toLocaleDateString("pt-BR", { timeZone: "UTC" }) ?
+                        <div className="alert alert-info h5 " role="alert" >
+                                <div className="text-center">
+                                    <button type="submit" className="btn btn-primary">Enviar</button>
+                                </div>
+                        </div> 
+                    : 
+                        <div className="alert alert-danger text-center" role="alert">
+                            A data tem que se superior a data Atual
+                        </div> 
+                :
+                    <div>sei</div>
+                }
             </div>
             
         </form>
