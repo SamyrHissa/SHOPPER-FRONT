@@ -48,11 +48,13 @@ export const CapturaQuantidade = () => {
                 return itemOrder.product_id === states.productSelected.id
             })
             if(jaExisteProduto){
-                const oldItem = {
+                const produtoItem = {
+                    "id": jaExisteProduto.product_id,
                     "item_id": jaExisteProduto.id,
-                    "qty_alter": quantidade + jaExisteProduto.qty_requested
+                    "qty_requested": jaExisteProduto.qty_requested
                 }
-                requests.alterItemOrder(history, oldItem)
+                setters.setProductSelected(produtoItem)
+                setters.setAcaoDetailPage('Alterar')
             } else {
                 const newItem = {
                     "order_id": states.orderSelected.Order_id,
